@@ -16,7 +16,7 @@ if __name__ == "__main__":
     delete_count = nginx_collection.count_documents({"method": "DELETE"})
 
     status_count = nginx_collection.count_documents({"method": "GET",
-                                          "path": "/status"})
+                                                     "path": "/status"})
 
     print(f"{total_count} logs")
     print("Methods:")
