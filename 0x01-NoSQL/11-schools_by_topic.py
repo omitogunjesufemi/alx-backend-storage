@@ -13,5 +13,5 @@ def schools_by_topic(mongo_collection, topic):
     Python function that returns the list of school having
     a specific topic:
     """
-    schools = mongo_collection.find({"topic": topic})
+    schools = mongo_collection.find({"topic": {"$in": [topic]}})
     return list(schools)
