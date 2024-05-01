@@ -54,7 +54,7 @@ class Cache:
         This callable is used to convert the data back to string
         """
         decoded_data = data.decode("utf-8")
-        return (decoded_data)
+        return (eval(decoded_data))
 
     def get_int(self, data):
         """
@@ -62,4 +62,4 @@ class Cache:
         format.
         """
         decoded_data = data.decode("utf-8")
-        return (decoded_data)
+        return (eval(decoded_data))
