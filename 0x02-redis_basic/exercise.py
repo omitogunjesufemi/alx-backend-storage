@@ -15,7 +15,6 @@ def call_history(method: Callable) -> Callable:
     Definition of a decorator to store the history of inputs and
     outputs for a particular function
     """
-    output_key = ""
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
@@ -50,6 +49,26 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key, 1)
         return method(self, *args, **kwds)
     return (wrapper)
+
+
+def replay(fn):
+    """
+    Display the history calls of a particular function
+    """
+    fn_name = fn.__qualname__
+
+    input_key = fn_name + ":inputs"
+    output_key = fn_name + ":outputs"
+
+    fn_redis = fn.__self__._redis
+    no_of_call = fn_redis.get(fn_name).decode("utf-8")
+    print(f"{fn_name} was called {no_of_call} times:")
+
+    inputs = fn_redis.lrange(input_key, 0, -1)
+    outputs = fn_redis.lrange(output_key, 0, -1)
+
+    for inp, out in zip(inputs, outputs):
+        print(f"{fn_name}(*{inp.decode()}) -> {out.decode()}")
 
 
 class Cache:
